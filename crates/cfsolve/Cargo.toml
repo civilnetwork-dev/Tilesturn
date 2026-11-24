@@ -1,0 +1,80 @@
+[package]
+name = "cfsolve"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+autotests = false
+
+[features]
+default = ["internals"]
+# Exposes analysis modules (deobfuscation, VM, payloads, stage2, and transport) used by tools
+# and the WebAssembly SDK.
+internals = []
+
+[dependencies]
+anyhow = "1.0.104"
+base64 = "0.22.1"
+brotli = "8.0.4"
+chrono = { version = "0.4.42", default-features = false, features = ["std"] }
+chrono-tz = "0.10"
+cookie = "0.18"
+cssparser = "0.37"
+ego-tree = "0.11.0"
+flate2 = { version = "1.1.10", default-features = false, features = [
+    "rust_backend",
+] }
+futures-util = "0.3"
+getrandom = { version = "0.4.3", features = ["wasm_js"] }
+html5ever = "0.39.0"
+http = "1"
+# Payload fields keep the order the challenge program builds them in.
+indexmap = { version = "2", features = ["serde"] }
+num-bigint = "0.4.6"
+# Deobfuscation, extraction, and the VM use Oxc's arena AST, semantic symbols, visitors, and
+# constant evaluator.
+oxc = { version = "0.157.0", features = ["ast_visit", "codegen", "semantic"] }
+oxc_ecmascript = { version = "0.157.0", features = ["constant_evaluation"] }
+# `Url` leaves an upstream proxy's credentials percent-encoded.
+percent-encoding = "2.3.2"
+# A returned program's payload can hold a capture of `RegExp(...).exec(...)`.
+regex = "1.12.2"
+# Fast hashing for the VM interpreter's identifier and register maps.
+rustc-hash = "2.1.1"
+ruzstd = "0.8"
+ryu-js = "1.0.2"
+# `deterministic` keeps attributes in source order, which the page fingerprint reports verbatim.
+scraper = { version = "0.27.0", features = ["deterministic"] }
+# Parsed scripts own the arena their Oxc tree borrows.
+self_cell = "1.2.0"
+serde = { version = "1.0.228", features = ["derive"] }
+# Browser measurements must retain the exact doubles produced by JSON.parse.
+serde_json = { version = "1.0.151", features = [
+    "float_roundtrip",
+    "preserve_order",
+] }
+sha2 = "0.10.9"
+url = "2.5.8"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+chrono = { version = "0.4.42", features = ["clock"] }
+iana-time-zone = "0.1.64"
+tokio = { version = "1.53.1", features = [
+    "macros",
+    "rt-multi-thread",
+    "sync",
+    "time",
+] }
+
+# `CLOCK_MONOTONIC`, the time base Chrome's `performance.now()` is derived from.
+[target.'cfg(unix)'.dependencies]
+libc = "0.2.189"
+
+# `QueryPerformanceCounter`, the time base Chrome's `performance.now()` is derived from on Windows.
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = ["Win32_System_Performance"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+chrono = { version = "0.4.42", features = ["wasmbind"] }
+js-sys = "0.3"
+wasm-bindgen = "0.2.130"
+wasm-bindgen-futures = "0.4"

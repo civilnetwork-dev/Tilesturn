@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "allowJs": true,
+        "strict": true,
+        "noEmit": true,
+        "skipLibCheck": true,
+        "isolatedModules": true,
+        "resolveJsonModule": true,
+        "allowImportingTsExtensions": true,
+        "noUncheckedSideEffectImports": false,
+        "types": ["bun", "node"]
+    },
+    "include": [
+        "src",
+        "tests",
+        "scripts",
+        "oxfmt.config.ts",
+        "oxlint.config.ts",
+        "vitest.config.ts"
+    ],
+    "exclude": ["node_modules", "dist", "target"]
+}

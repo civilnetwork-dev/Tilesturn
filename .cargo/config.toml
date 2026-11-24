@@ -1,0 +1,6 @@
+[target.wasm32-unknown-unknown]
+rustflags = [
+    # Recursive Oxc AST deobfuscation needs an 8 MiB stack, matching native deep_stack.rs.
+    "-C",
+    "link-arg=-zstack-size=8388608",
+]
