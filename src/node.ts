@@ -2,10 +2,10 @@ import { readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { Browser, type BrowserCreateOptions } from "./browser.ts";
-import { CfsolveError } from "./errors.ts";
-import type { Answers, Profile, ProfileBundle } from "./types.ts";
-import { initWasmSync, type WasmModule } from "./wasm.ts";
+import { Browser, type BrowserCreateOptions } from "./browser.js";
+import { CfsolveError } from "./errors.js";
+import type { Answers, Profile, ProfileBundle } from "./types.js";
+import { initWasmSync, type WasmModule } from "./wasm.js";
 
 /**
  * Loads a profile JSON file and resolves any relative `answers` and

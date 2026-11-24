@@ -16,22 +16,22 @@ export {
     SessionEncoder,
     validateAnswers,
     type ResolveReferrerOptions,
-} from "./analysis.ts";
-export { Browser, type BrowserCreateOptions } from "./browser.ts";
+} from "./analysis.js";
+export { Browser, type BrowserCreateOptions } from "./browser.js";
 export {
     CfsolveError,
     isCfsolveError,
     toCfsolveError,
     type CfsolveErrorOptions,
     type WireErrorShape,
-} from "./errors.ts";
+} from "./errors.js";
 export {
     createFetchTransport,
     createMemorySink,
     type FetchLike,
     type FetchTransportOptions,
     type MemorySink,
-} from "./transport.ts";
+} from "./transport.js";
 export type {
     Answers,
     ChallengePage,
@@ -39,8 +39,6 @@ export type {
     ClientHello,
     Cookie,
     Deobfuscated,
-    DisassemblyCause,
-    DisassemblyFailure,
     EncoderMetadata,
     Engine,
     ErrorCode,
@@ -53,14 +51,18 @@ export type {
     InstructionCondition,
     InstructionExit,
     InstructionPath,
+    InteractionPlan,
     Listing,
+    ListingCause,
+    ListingFailure,
     Outcome,
     PageDocument,
     PageSource,
     Position,
-    ProbeAnalysisArtifact,
+    ProbePlan,
     Profile,
     ProfileBundle,
+    ProgramOutcome,
     ReferrerPolicyName,
     ReferrerResolution,
     Sink,
@@ -77,7 +79,7 @@ export type {
     Unconverged,
     Widget,
     WsMessage,
-} from "./types.ts";
+} from "./types.js";
 export {
     initWasm,
     initWasmSync,
@@ -85,4 +87,4 @@ export {
     requireWasm,
     type WasmInitInput,
     type WasmModule,
-} from "./wasm.ts";
+} from "./wasm.js";

@@ -1,15 +1,15 @@
 import type { WasmSessionEncoder } from "../pkg/cfsolve_wasm.js";
-import { CfsolveError, toCfsolveError } from "./errors.ts";
+import { CfsolveError, toCfsolveError } from "./errors.js";
 import type {
     Answers,
     ChallengePage,
     Deobfuscated,
     EncoderMetadata,
     Listing,
-    ProbeAnalysisArtifact,
+    ProbePlan,
     ReferrerResolution,
-} from "./types.ts";
-import { requireWasm } from "./wasm.ts";
+} from "./types.js";
+import { requireWasm } from "./wasm.js";
 
 const textEncoder = new TextEncoder();
 
@@ -161,12 +161,12 @@ export function disassemble(
 export function analyzeProbes(
     deobfuscatedJs: string,
     program: Uint8Array,
-): ProbeAnalysisArtifact {
+): ProbePlan {
     try {
         return requireWasm().analyzeProbes(
             deobfuscatedJs,
             program,
-        ) as ProbeAnalysisArtifact;
+        ) as ProbePlan;
     } catch (err) {
         throw toCfsolveError(err);
     }

@@ -11,6 +11,7 @@ const sampleTls: TransportTlsInfo = {
     engine: "webkit",
     profile: "safari_ios_26.2",
     platform: "ios",
+    clientHello: {},
 };
 
 function makeRequest(
