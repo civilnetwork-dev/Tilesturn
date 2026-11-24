@@ -19,7 +19,7 @@ import { Browser, createFetchTransport, createMemorySink } from "tilesturn";
 import { loadSafari26IosProfile } from "tilesturn/node";
 
 const bundle = await loadSafari26IosProfile();
-using browser = await Browser.create(bundle);
+const browser = await Browser.create(bundle);
 
 const sink = createMemorySink();
 const token = await browser.solveTurnstile(
