@@ -185,6 +185,7 @@ export interface Profile {
     };
     browser?: Record<string, unknown>;
     timeline: Record<string, number>;
+    challenge_page_timeline?: Record<string, number>;
     intervals: Record<string, number>;
     orchestrator: Record<string, unknown>;
     resource_timing: Record<string, unknown>;

@@ -16,9 +16,10 @@ export class WasmBrowser {
      */
     clear(url: string, options: any): Promise<any>;
     /**
-     * Constructs and validates a `Browser` from fingerprint JSON and optional stored answers.
+     * Constructs and validates a `Browser` from a `Profile` JSON object and optional stored
+     * `Answers`.
      */
-    constructor(fingerprint: any, answers: any, challenge_page_answers: any);
+    constructor(profile: any, answers: any, challenge_page_answers: any);
     /**
      * Fetches `iframe_url` and emits encoder and payload field artifacts to `options.sink`.
      */
@@ -40,7 +41,7 @@ export class WasmBrowser {
     readonly hasChallengePageAnswers: boolean;
     readonly platformName: string;
     readonly profileName: string;
-    readonly userAgent: string | undefined;
+    readonly userAgent: string;
 }
 
 /**
@@ -63,7 +64,7 @@ export class WasmSessionEncoder {
 
 /**
  * Analyzes a returned stage-2 VM `program` to recover ordered probes, vocabulary mappings,
- * record envelope fields, and payload layout (`stage2.json`).
+ * record envelope fields, and payload layout (`ProbePlan`).
  */
 export function analyzeProbes(deobfuscated_js: string, program: Uint8Array | number[]): any;
 
@@ -116,6 +117,12 @@ export function extractRay(url_or_path: string): string;
 export function isPostPath(path: string): boolean;
 
 /**
+ * Attaches verified CSSOM stylesheet measurements to stored [`Answers`] after confirming they
+ * reproduce the capture's reported stylesheet hash.
+ */
+export function measureStylesheets(answers: any, deobfuscated_js: string, program: Uint8Array | number[], html: string, templates: any): any;
+
+/**
  * Parses a Cloudflare challenge page ("Just a moment...") or returns `null` if `html` is not one.
  */
 export function parseChallengePage(html: string, url: string): any;
@@ -125,6 +132,18 @@ export function parseChallengePage(html: string, url: string): any;
  * template.
  */
 export function prepareSession(deobfuscated_js: string, iframe_url: string): WasmSessionEncoder;
+
+/**
+ * Infers the challenge outcome (completion token, interaction required, or other strings) from a
+ * returned VM bytecode `program`.
+ */
+export function programOutcome(deobfuscated_js: string, program: Uint8Array | number[]): any;
+
+/**
+ * Recovers the checkbox interaction and proof-of-work plan from a returned interaction VM
+ * bytecode `program`.
+ */
+export function recoverInteraction(deobfuscated_js: string, program: Uint8Array | number[]): any;
 
 /**
  * Returns the embedded stage-2 reference build digest expected by stored `Answers`.
@@ -158,8 +177,11 @@ export interface InitOutput {
     readonly extractInlineJavascript: (a: number, b: number) => [number, number, number, number];
     readonly extractRay: (a: number, b: number) => [number, number, number, number];
     readonly isPostPath: (a: number, b: number) => number;
+    readonly measureStylesheets: (a: any, b: number, c: number, d: number, e: number, f: number, g: number, h: any) => [number, number, number];
     readonly parseChallengePage: (a: number, b: number, c: number, d: number) => [number, number, number];
     readonly prepareSession: (a: number, b: number, c: number, d: number) => [number, number, number];
+    readonly programOutcome: (a: number, b: number, c: number, d: number) => [number, number, number];
+    readonly recoverInteraction: (a: number, b: number, c: number, d: number) => [number, number, number];
     readonly referenceDigest: () => [number, number];
     readonly resolveReferrer: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number) => [number, number, number];
     readonly validateAnswers: (a: any) => [number, number];

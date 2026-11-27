@@ -66,13 +66,14 @@ export class WasmBrowser {
         return ret !== 0;
     }
     /**
-     * Constructs and validates a `Browser` from fingerprint JSON and optional stored answers.
-     * @param {any} fingerprint
+     * Constructs and validates a `Browser` from a `Profile` JSON object and optional stored
+     * `Answers`.
+     * @param {any} profile
      * @param {any} answers
      * @param {any} challenge_page_answers
      */
-    constructor(fingerprint, answers, challenge_page_answers) {
-        const ret = wasm.wasmbrowser_new(fingerprint, answers, challenge_page_answers);
+    constructor(profile, answers, challenge_page_answers) {
+        const ret = wasm.wasmbrowser_new(profile, answers, challenge_page_answers);
         if (ret[2]) {
             throw takeFromExternrefTable0(ret[1]);
         }
@@ -158,16 +159,19 @@ export class WasmBrowser {
         return ret;
     }
     /**
-     * @returns {string | undefined}
+     * @returns {string}
      */
     get userAgent() {
-        const ret = wasm.wasmbrowser_userAgent(this.__wbg_ptr);
-        let v1;
-        if (ret[0] !== 0) {
-            v1 = getStringFromWasm0(ret[0], ret[1]);
-            wasm.__wbindgen_free(ret[0], ret[1] * 1, 1);
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const ret = wasm.wasmbrowser_userAgent(this.__wbg_ptr);
+            deferred1_0 = ret[0];
+            deferred1_1 = ret[1];
+            return getStringFromWasm0(ret[0], ret[1]);
+        } finally {
+            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
         }
-        return v1;
     }
 }
 if (Symbol.dispose) WasmBrowser.prototype[Symbol.dispose] = WasmBrowser.prototype.free;
@@ -232,7 +236,7 @@ if (Symbol.dispose) WasmSessionEncoder.prototype[Symbol.dispose] = WasmSessionEn
 
 /**
  * Analyzes a returned stage-2 VM `program` to recover ordered probes, vocabulary mappings,
- * record envelope fields, and payload layout (`stage2.json`).
+ * record envelope fields, and payload layout (`ProbePlan`).
  * @param {string} deobfuscated_js
  * @param {Uint8Array | number[]} program
  * @returns {any}
@@ -465,6 +469,38 @@ export function isPostPath(path) {
 }
 
 /**
+ * Attaches verified CSSOM stylesheet measurements to stored [`Answers`] after confirming they
+ * reproduce the capture's reported stylesheet hash.
+ * @param {any} answers
+ * @param {string} deobfuscated_js
+ * @param {Uint8Array | number[]} program
+ * @param {string} html
+ * @param {any} templates
+ * @returns {any}
+ */
+export function measureStylesheets(answers, deobfuscated_js, program, html, templates) {
+    let ptr0, len0, ptr1, len1, ptr2, len2;
+    try {
+        ptr0 = passStringToWasm0(deobfuscated_js, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        len0 = WASM_VECTOR_LEN;
+        ptr1 = passArray8ToWasm0(program, wasm.__wbindgen_malloc);
+        len1 = WASM_VECTOR_LEN;
+        ptr2 = passStringToWasm0(html, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        len2 = WASM_VECTOR_LEN;
+    } catch (e) {
+        if (ptr2) { wasm.__wbindgen_free(ptr2, len2 * 1, 1); }
+        if (ptr1) { wasm.__wbindgen_free(ptr1, len1 * 1, 1); }
+        if (ptr0) { wasm.__wbindgen_free(ptr0, len0 * 1, 1); }
+        throw e;
+    }
+    const ret = wasm.measureStylesheets(answers, ptr0, len0, ptr1, len1, ptr2, len2, templates);
+    if (ret[2]) {
+        throw takeFromExternrefTable0(ret[1]);
+    }
+    return takeFromExternrefTable0(ret[0]);
+}
+
+/**
  * Parses a Cloudflare challenge page ("Just a moment...") or returns `null` if `html` is not one.
  * @param {string} html
  * @param {string} url
@@ -513,6 +549,58 @@ export function prepareSession(deobfuscated_js, iframe_url) {
         throw takeFromExternrefTable0(ret[1]);
     }
     return WasmSessionEncoder.__wrap(ret[0]);
+}
+
+/**
+ * Infers the challenge outcome (completion token, interaction required, or other strings) from a
+ * returned VM bytecode `program`.
+ * @param {string} deobfuscated_js
+ * @param {Uint8Array | number[]} program
+ * @returns {any}
+ */
+export function programOutcome(deobfuscated_js, program) {
+    let ptr0, len0, ptr1, len1;
+    try {
+        ptr0 = passStringToWasm0(deobfuscated_js, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        len0 = WASM_VECTOR_LEN;
+        ptr1 = passArray8ToWasm0(program, wasm.__wbindgen_malloc);
+        len1 = WASM_VECTOR_LEN;
+    } catch (e) {
+        if (ptr1) { wasm.__wbindgen_free(ptr1, len1 * 1, 1); }
+        if (ptr0) { wasm.__wbindgen_free(ptr0, len0 * 1, 1); }
+        throw e;
+    }
+    const ret = wasm.programOutcome(ptr0, len0, ptr1, len1);
+    if (ret[2]) {
+        throw takeFromExternrefTable0(ret[1]);
+    }
+    return takeFromExternrefTable0(ret[0]);
+}
+
+/**
+ * Recovers the checkbox interaction and proof-of-work plan from a returned interaction VM
+ * bytecode `program`.
+ * @param {string} deobfuscated_js
+ * @param {Uint8Array | number[]} program
+ * @returns {any}
+ */
+export function recoverInteraction(deobfuscated_js, program) {
+    let ptr0, len0, ptr1, len1;
+    try {
+        ptr0 = passStringToWasm0(deobfuscated_js, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        len0 = WASM_VECTOR_LEN;
+        ptr1 = passArray8ToWasm0(program, wasm.__wbindgen_malloc);
+        len1 = WASM_VECTOR_LEN;
+    } catch (e) {
+        if (ptr1) { wasm.__wbindgen_free(ptr1, len1 * 1, 1); }
+        if (ptr0) { wasm.__wbindgen_free(ptr0, len0 * 1, 1); }
+        throw e;
+    }
+    const ret = wasm.recoverInteraction(ptr0, len0, ptr1, len1);
+    if (ret[2]) {
+        throw takeFromExternrefTable0(ret[1]);
+    }
+    return takeFromExternrefTable0(ret[0]);
 }
 
 /**
@@ -696,16 +784,6 @@ function __wbg_get_imports() {
             let result;
             try {
                 result = arg0 instanceof Object;
-            } catch (_) {
-                result = false;
-            }
-            const ret = result;
-            return ret;
-        },
-        __wbg_instanceof_Promise_59148c6049d0e3a0: function(arg0) {
-            let result;
-            try {
-                result = arg0 instanceof Promise;
             } catch (_) {
                 result = false;
             }
